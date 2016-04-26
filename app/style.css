@@ -1,0 +1,22 @@
+html,
+body {
+    background-color: #333;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    color: #ccc;
+}
+
+canvas#playground {
+    display: block;
+    border: 1px solid red;
+    margin: 0 auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+#controls {
+    text-align: center;    
+}
