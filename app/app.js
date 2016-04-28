@@ -1,3 +1,5 @@
+'use strict';
+
 import main from './index.html';
 import styles from './style.css';
 
@@ -5,7 +7,14 @@ import Heatmap from './src/Heatmap.class';
 
 (function() {
 
-    var heat = new Heatmap('playground').data(randomPoints(250, 640, 640)).draw();
+    //var heat = new Heatmap('playground').data(randomPoints(250, 640, 640)).draw();
+    var heat = new Heatmap('playground', '/assets/img.jpg').data(randomPoints(100, 640, 640)).draw();
+    /*var heat = new Heatmap('playground', '/assets/img.jpg').data([
+            [10, 10],
+            [10, 10],
+            [10, 10],
+            [50, 50]
+    ]).draw();*/
 
     var curr = 0;
     var gradients = [{
@@ -19,13 +28,13 @@ import Heatmap from './src/Heatmap.class';
         0.25: '#F9D738',
         0.5: '#FBA330',
         0.75: '#FC7529',
-        1.00: '#FC5E25',
+        1.00: '#FC5E25'
     }, {
         0.00: '#FFFFFF',
         0.25: '#BD2B2B',
         0.50: '#9E1B30',
         0.75: '#780E3D',
-        1.00: 'red',
+        1.00: 'red'
     }, {
         0.4: 'blue',
         0.6: 'cyan',
@@ -65,6 +74,4 @@ import Heatmap from './src/Heatmap.class';
         return a;
     }
 
-
-
-}())
+}());

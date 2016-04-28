@@ -9,16 +9,29 @@ const DEFAULTS = {
         0.7: 'lime',
         0.8: 'yellow',
         1.0: 'red'
-    },
-}
+    }
+};
 
 export default class {
 
-    constructor(canvas) {
+    constructor(canvas, img) {
         this.canvas = _.isString(canvas) ? document.getElementById(canvas) : canvas;
         this._ctx = this.canvas.getContext('2d');
         this._width = this.canvas.width;
         this._height = this.canvas.height;
+
+        this.canvasHeat = this._createCanvas(this._width, this._height);
+        this._ctxHeat = this.canvasHeat.getContext('2d');
+
+        if (img) {
+            console.log('trying to draw an image', img);
+            this._img = new Image;
+            this._img.src = img;
+            this._isLoaded = false;
+            this._img.addEventListener('load', () => {
+                this._isLoaded = true;
+            });
+        }
 
         this._data = [];
     }
@@ -34,6 +47,13 @@ export default class {
     }
 
     draw(force) {
+        if (this._img && !this._isLoaded) {
+            setTimeout(()=> {
+                this.draw();
+            });
+            return this;
+        }
+
         if (!this.circle || force) {
             this._cacheCircle();
         }
@@ -42,20 +62,28 @@ export default class {
         }
 
         let ctx = this._ctx;
-        ctx.clearRect(0, 0, this._width, this._height);
+        let ctxHeat = this._ctxHeat;
+
+        ctxHeat.clearRect(0, 0, this._width, this._height);
+
+        if (this._img) {
+            ctx.drawImage(this._img, 0, 0);
+        }
 
         for (let i = 0, len = this._data.length, p; i < len; i++) {
             p = this._data[i];
-            ctx.globalAlpha = Math.max(1 / len, 0.1);
-            ctx.drawImage(this._circle, p[0] - this._r - this._blur, p[1] - this._r - this._blur);
+            ctxHeat.globalAlpha = Math.max(1 / len, 0.1);
+            ctxHeat.drawImage(this._circle, p[0] - this._r - this._blur, p[1] - this._r - this._blur);
         }
 
-        let colored = ctx.getImageData(0, 0, this._width, this._height);
+        let colored = ctxHeat.getImageData(0, 0, this._width, this._height);
 
         this._normalize(colored.data);
         this._colorize(colored.data, this.gradient);
+        ctxHeat.putImageData(colored, 0, 0);
 
-        ctx.putImageData(colored, 0, 0);
+        // ctx.globalCompositeOperation = 'lighten';
+        ctx.drawImage(this.canvasHeat, 0, 0);
 
         return this;
     }
