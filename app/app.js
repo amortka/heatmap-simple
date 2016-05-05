@@ -8,7 +8,7 @@ import Heatmap from './src/Heatmap.class';
 (function() {
 
     //var heat = new Heatmap('playground').data(randomPoints(250, 640, 640)).draw();
-    var heat = new Heatmap('playground', '/assets/img.jpg').data(randomPoints(100, 640, 640)).draw();
+    var heat = new Heatmap('playground', '/assets/img.jpg').data(randomPoints(5, 640, 640)).draw();
     /*var heat = new Heatmap('playground', '/assets/img.jpg').data([
             [10, 10],
             [10, 10],
@@ -46,12 +46,14 @@ import Heatmap from './src/Heatmap.class';
     var blurCtrl = document.getElementById('blur-slider');
     var radiusCtrl = document.getElementById('radius-slider');
     var colorBtn = document.getElementById('btn-color');
+    var mouseBtn = document.getElementById('btn-mouse');
 
     blurCtrl.addEventListener('change', blurChangeHandler);
     blurCtrl.addEventListener('input', blurChangeHandler);
     radiusCtrl.addEventListener('change', radiusChangeHandler);
     radiusCtrl.addEventListener('input', radiusChangeHandler);
     colorBtn.addEventListener('click', colorBtnHandler);
+    mouseBtn.addEventListener('click', mouseBtnHandler);
 
     function blurChangeHandler(ev) {
         heat.setBlur(ev.target.value);
@@ -64,6 +66,10 @@ import Heatmap from './src/Heatmap.class';
     function colorBtnHandler() {
         heat.setGradient(gradients[curr++]);
         curr = curr < gradients.length ? curr : 0;
+    }
+    
+    function mouseBtnHandler(evt) {
+        heat.catchMouse();
     }
 
     function randomPoints(n, width, height) {
