@@ -8,7 +8,7 @@ import Heatmap from './src/Heatmap.class';
 (function() {
 
     //var heat = new Heatmap('playground').data(randomPoints(250, 640, 640)).draw();
-    var heat = new Heatmap('playground', '/assets/img.jpg').data(randomPoints(5, 640, 640)).draw();
+    var heat = new Heatmap('playground', 'assets/img.jpg').data(randomPoints(5, 640, 640)).draw();
     /*var heat = new Heatmap('playground', '/assets/img.jpg').data([
             [10, 10],
             [10, 10],
